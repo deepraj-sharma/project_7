@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Habit Tracker Pro</title>
+
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>🌸 Habits</h2>
+    <ul>
+      <li class="active">Dashboard</li>
+      <li>Analytics</li>
+      <li>Settings</li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <header>
+      <h1>Dashboard</h1>
+      <button onclick="toggleTheme()">🌙</button>
+    </header>
+
+    <div class="dashboard">
+
+      <div class="card">
+        <h3>Overall</h3>
+        <canvas id="donutChart"></canvas>
+      </div>
+
+      <div class="card big">
+        <h3>Weekly Habits</h3>
+
+        <div class="add-habit">
+          <input id="habitInput" placeholder="New habit...">
+          <button onclick="addHabit()">Add</button>
+        </div>
+
+        <table id="habitTable">
+          <thead>
+            <tr>
+              <th>Habit</th>
+              <th>M</th><th>T</th><th>W</th>
+              <th>T</th><th>F</th><th>S</th><th>S</th>
+              <th>🔥</th><th>🏆</th><th>❌</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Progress</h3>
+        <canvas id="lineChart"></canvas>
+      </div>
+
+    </div>
+
+    <div class="bottom">
+
+      <div class="card">
+        <h3>⭐ XP</h3>
+        <p id="xpText"></p>
+      </div>
+
+      <div class="card">
+        <h3>Completion</h3>
+        <p id="percentText"></p>
+      </div>
