@@ -7,7 +7,7 @@
 <title>Habit Tracker Pro</title>
 
 <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -18,65 +18,146 @@
 
   <!-- Sidebar -->
   <aside class="sidebar">
-    <h2>🌸 Habits</h2>
+    <div class="logo">🌸 Habit Tracker</div>
     <ul>
-      <li class="active">Dashboard</li>
-      <li>Analytics</li>
-      <li>Settings</li>
+      <li class="active" onclick="showPage('dashboard')">📊 Dashboard</li>
+      <li onclick="showPage('analytics')">📈 Analytics</li>
+      <li onclick="showPage('settings')">⚙️ Settings</li>
     </ul>
+    <div class="sidebar-footer">
+      <button class="theme-btn" onclick="toggleTheme()">🌙 Dark</button>
+    </div>
   </aside>
 
   <!-- Main -->
   <main class="main">
 
-    <header>
-      <h1>Dashboard</h1>
-      <button onclick="toggleTheme()">🌙</button>
+    <header class="top-header">
+      <div>
+        <h1>Dashboard</h1>
+        <p id="dateText" class="date-text"></p>
+      </div>
+      <div class="header-right">
+        <span class="week-badge" id="weekBadge">Week 1</span>
+      </div>
     </header>
 
-    <div class="dashboard">
+    <!-- Dashboard Page -->
+    <div id="dashboard" class="page active">
+      <div class="dashboard">
 
-      <div class="card">
-        <h3>Overall</h3>
-        <canvas id="donutChart"></canvas>
-      </div>
-
-      <div class="card big">
-        <h3>Weekly Habits</h3>
-
-        <div class="add-habit">
-          <input id="habitInput" placeholder="New habit...">
-          <button onclick="addHabit()">Add</button>
+        <div class="card">
+          <h3>📊 Overall Completion</h3>
+          <p class="big-percent" id="percentText">0%</p>
+          <canvas id="donutChart"></canvas>
         </div>
 
-        <table id="habitTable">
-          <thead>
-            <tr>
-              <th>Habit</th>
-              <th>M</th><th>T</th><th>W</th>
-              <th>T</th><th>F</th><th>S</th><th>S</th>
-              <th>🔥</th><th>🏆</th><th>❌</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+        <div class="card big">
+          <h3>📋 Weekly Habits</h3>
+
+          <div class="add-habit">
+            <input id="habitInput" placeholder="Add new habit..." autocomplete="off">
+            <button onclick="addHabit()" class="btn-add">➕ Add</button>
+          </div>
+
+          <div class="table-wrapper">
+            <table id="habitTable">
+              <thead>
+                <tr>
+                  <th>Habit</th>
+                  <th>M</th><th>T</th><th>W</th>
+                  <th>T</th><th>F</th><th>S</th><th>S</th>
+                  <th>🔥</th><th>🏆</th><th>❌</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>📈 Weekly Progress</h3>
+          <canvas id="lineChart"></canvas>
+        </div>
+
       </div>
 
-      <div class="card">
-        <h3>Progress</h3>
-        <canvas id="lineChart"></canvas>
-      </div>
+      <div class="bottom">
 
+        <div class="card stat-card">
+          <h3>⭐ XP & Level</h3>
+          <p id="xpText" class="xp-display">XP: 0 | Level: 0</p>
+          <div class="xp-bar">
+            <div class="xp-fill" id="xpFill"></div>
+          </div>
+        </div>
+
+        <div class="card stat-card">
+          <h3>🎖️ Achievements</h3>
+          <ul id="achievements" class="achievements-list"></ul>
+        </div>
+
+      </div>
     </div>
 
-    <div class="bottom">
-
+    <!-- Analytics Page -->
+    <div id="analytics" class="page">
       <div class="card">
-        <h3>⭐ XP</h3>
-        <p id="xpText"></p>
+        <h3>📊 Statistics</h3>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <p class="stat-label">Total Habits</p>
+            <p class="stat-value" id="totalHabits">0</p>
+          </div>
+          <div class="stat-box">
+            <p class="stat-label">Completed Today</p>
+            <p class="stat-value" id="completedToday">0</p>
+          </div>
+          <div class="stat-box">
+            <p class="stat-label">Best Streak</p>
+            <p class="stat-value" id="bestStreak">0</p>
+          </div>
+          <div class="stat-box">
+            <p class="stat-label">Weeks Tracked</p>
+            <p class="stat-value" id="weeksTracked">0</p>
+          </div>
+        </div>
       </div>
 
       <div class="card">
-        <h3>Completion</h3>
-        <p id="percentText"></p>
+        <h3>📜 Weekly History</h3>
+        <div id="historyList" class="history-list"></div>
       </div>
+    </div>
+
+    <!-- Settings Page -->
+    <div id="settings" class="page">
+      <div class="card">
+        <h3>⚙️ Settings</h3>
+        <div class="settings-group">
+          <label>
+            <input type="checkbox" id="notificationToggle">
+            Enable Notifications
+          </label>
+          <label>
+            <input type="checkbox" id="soundToggle">
+            Sound Effects
+          </label>
+        </div>
+      </div>
+
+      <div class="card danger">
+        <h3>🗑️ Danger Zone</h3>
+        <p>Clear all data from local storage</p>
+        <button onclick="confirmClearData()" class="btn-danger">Clear All Data</button>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
